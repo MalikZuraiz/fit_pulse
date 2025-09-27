@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:animate_do/animate_do.dart';
 import '../../../core/theme/app_theme.dart';
+import '../../../core/widgets/particle_animations.dart';
 import '../controllers/splash_controller.dart';
 
 class SplashView extends GetView<SplashController> {
@@ -14,35 +15,15 @@ class SplashView extends GetView<SplashController> {
         decoration: const BoxDecoration(
           gradient: AppTheme.backgroundGradient,
         ),
-        child: Stack(
-          alignment: Alignment.center,
-          children: [
-            // Animated background particles
-            ...List.generate(50, (index) {
-              return Positioned(
-                left: (index % 10) * (Get.width / 10),
-                top: (index ~/ 10) * (Get.height / 5),
-                child: FadeInUp(
-                  delay: Duration(milliseconds: index * 50),
-                  duration: const Duration(milliseconds: 1000),
-                  child: Container(
-                    width: 4,
-                    height: 4,
-                    decoration: BoxDecoration(
-                      color: AppTheme.neonPink.withOpacity(0.3),
-                      shape: BoxShape.circle,
-                      boxShadow: [
-                        BoxShadow(
-                          color: AppTheme.neonPink.withOpacity(0.5),
-                          blurRadius: 10,
-                          spreadRadius: 2,
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              );
-            }),
+        child: ParticleSystem(
+          numberOfParticles: 30,
+          particleColor: AppTheme.neonPink.withOpacity(0.6),
+          maxRadius: 3.0,
+          minRadius: 1.0,
+          animationDuration: const Duration(seconds: 8),
+          child: Stack(
+            alignment: Alignment.center,
+            children: [
             
             // Main content
             Center(
@@ -154,6 +135,7 @@ class SplashView extends GetView<SplashController> {
               ),
             ),
           ],
+        ),
         ),
       ),
     );

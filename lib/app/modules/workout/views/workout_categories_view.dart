@@ -1,7 +1,9 @@
 import 'package:fit_pulse/app/core/widgets/custom_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:animate_do/animate_do.dart';
 import '../../../core/theme/app_theme.dart';
+
 import '../../../routes/app_routes.dart';
 import '../controllers/workout_controller.dart';
 
@@ -64,26 +66,32 @@ class WorkoutCategoriesView extends GetView<WorkoutController> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      // Quick Stats
+                      // Quick Stats with Animation
                       SizedBox(
                         height: 100,
                         child: Row(
                           children: [
                             Expanded(
-                              child: _buildStatCard(
-                                title: 'Total Workouts',
-                                value: '24',
-                                icon: Icons.fitness_center,
-                                color: AppTheme.neonPink,
+                              child: FadeInLeft(
+                                delay: const Duration(milliseconds: 100),
+                                child: _buildStatCard(
+                                  title: 'Total Workouts',
+                                  value: '24',
+                                  icon: Icons.fitness_center,
+                                  color: AppTheme.neonPink,
+                                ),
                               ),
                             ),
                             const SizedBox(width: 16),
                             Expanded(
-                              child: _buildStatCard(
-                                title: 'This Week',
-                                value: '5',
-                                icon: Icons.calendar_today,
-                                color: AppTheme.neonYellow,
+                              child: FadeInRight(
+                                delay: const Duration(milliseconds: 200),
+                                child: _buildStatCard(
+                                  title: 'This Week',
+                                  value: '5',
+                                  icon: Icons.calendar_today,
+                                  color: AppTheme.neonYellow,
+                                ),
                               ),
                             ),
                           ],
@@ -112,29 +120,41 @@ class WorkoutCategoriesView extends GetView<WorkoutController> {
                           mainAxisSpacing: 16,
                           childAspectRatio: 0.8,
                           children: [
-                            _buildCategoryCard(
-                              title: 'Strength',
-                              subtitle: '12 exercises',
-                              icon: Icons.fitness_center,
-                              color: AppTheme.neonPink,
+                            FadeInUp(
+                              delay: const Duration(milliseconds: 600),
+                              child: _buildCategoryCard(
+                                title: 'Strength',
+                                subtitle: '12 exercises',
+                                icon: Icons.fitness_center,
+                                color: AppTheme.neonPink,
+                              ),
                             ),
-                            _buildCategoryCard(
-                              title: 'Cardio',
-                              subtitle: '8 exercises',
-                              icon: Icons.directions_run,
-                              color: AppTheme.neonCyan,
+                            FadeInUp(
+                              delay: const Duration(milliseconds: 700),
+                              child: _buildCategoryCard(
+                                title: 'Cardio',
+                                subtitle: '8 exercises',
+                                icon: Icons.directions_run,
+                                color: AppTheme.neonCyan,
+                              ),
                             ),
-                            _buildCategoryCard(
-                              title: 'Yoga',
-                              subtitle: '15 poses',
-                              icon: Icons.self_improvement,
-                              color: AppTheme.neonYellow,
+                            FadeInUp(
+                              delay: const Duration(milliseconds: 800),
+                              child: _buildCategoryCard(
+                                title: 'Yoga',
+                                subtitle: '15 poses',
+                                icon: Icons.self_improvement,
+                                color: AppTheme.neonYellow,
+                              ),
                             ),
-                            _buildCategoryCard(
-                              title: 'HIIT',
-                              subtitle: '6 circuits',
-                              icon: Icons.timer,
-                              color: AppTheme.neonBlue,
+                            FadeInUp(
+                              delay: const Duration(milliseconds: 900),
+                              child: _buildCategoryCard(
+                                title: 'HIIT',
+                                subtitle: '6 circuits',
+                                icon: Icons.timer,
+                                color: AppTheme.neonBlue,
+                              ),
                             ),
                           ],
                         ),

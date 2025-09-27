@@ -2,7 +2,13 @@ import 'dart:ui';
 import 'package:fit_pulse/app/core/widgets/custom_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:animate_do/animate_do.dart';
 import '../../../core/theme/app_theme.dart';
+import '../../../core/widgets/animated_bottom_nav.dart' as nav;
+
+import '../../../core/widgets/continuous_particle_system.dart';
+
+import '../../../core/widgets/tab_transition_animations.dart';
 import '../controllers/dashboard_controller.dart';
 
 class DashboardView extends GetView<DashboardController> {
@@ -13,67 +19,85 @@ class DashboardView extends GetView<DashboardController> {
     return Scaffold(
       body: Container(
         decoration: const BoxDecoration(gradient: AppTheme.backgroundGradient),
-        child: SafeArea(
-          child: Column(
-            children: [
-              // Header
-              Padding(
-                padding: const EdgeInsets.all(24.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+        child: ContinuousParticleOverlay(
+          numberOfParticles: 25,
+          particleColors: const [
+            Color(0x4DFF6B9D), // AppTheme.neonPink with opacity
+            Color(0x4D00E5FF), // AppTheme.neonCyan with opacity
+            Color(0x3DFFFF00), // AppTheme.neonYellow with opacity
+            Color(0x4D00FFAA), // AppTheme.neonGreen with opacity
+          ],
+          maxRadius: 3.0,
+          minRadius: 1.0,
+          child:
+          
+            SafeArea(
+              child: Column(
+                children: [
+                    // Header
+                    Padding(
+                      padding: const EdgeInsets.all(24.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(
-                            'Welcome back,',
-                            style: TextStyle(
-                              color: Colors.white.withOpacity(0.8),
-                              fontSize: 16,
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'Welcome back,',
+                                  style: TextStyle(
+                                    color: Colors.white.withOpacity(0.8),
+                                    fontSize: 16,
+                                  ),
+                                ),
+                                const SizedBox(height: 4),
+                                Obx(
+                                  () => Text(
+                                    controller.userName.value,
+                                    style: const TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 24,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
-                          const SizedBox(height: 4),
-                          Obx(
-                            () => Text(
-                              controller.userName.value,
-                              style: const TextStyle(
-                                color: Colors.white,
-                                fontSize: 24,
-                                fontWeight: FontWeight.bold,
+                          Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              IconButton(
+                                onPressed: controller.navigateToNotifications,
+                                icon: const Icon(
+                                  Icons.notifications_outlined,
+                                  color: Colors.white,
+                                ),
                               ),
-                            ),
+                              IconButton(
+                                onPressed: controller.navigateToSettings,
+                                icon: const Icon(
+                                  Icons.settings_outlined,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ],
                           ),
                         ],
                       ),
                     ),
-                    Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        IconButton(
-                          onPressed: controller.navigateToNotifications,
-                          icon: const Icon(
-                            Icons.notifications_outlined,
-                            color: Colors.white,
-                          ),
-                        ),
-                        IconButton(
-                          onPressed: controller.navigateToSettings,
-                          icon: const Icon(
-                            Icons.settings_outlined,
-                            color: Colors.white,
-                          ),
-                        ),
-                      ],
+              
+                    // Main Content - Tab Views with Transition
+                    Expanded(
+                      child: Obx(() => TabContentTransition(
+                        currentIndex: controller.currentIndex.value,
+                        child: _buildTabContent(),
+                      )),
                     ),
                   ],
                 ),
               ),
-
-              // Main Content - Tab Views
-              Expanded(child: Obx(() => _buildTabContent())),
-            ],
-          ),
         ),
       ),
       bottomNavigationBar: _buildBottomNavigation(),
@@ -101,11 +125,17 @@ class DashboardView extends GetView<DashboardController> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Profile Card
-          _buildProfileCard(),
+          // Profile Card with Floating Animation
+          FadeInDown(
+            child: SimpleFloating(
+              duration: const Duration(seconds: 4),
+              amplitude: 8.0,
+              child: _buildProfileCard(),
+            ),
+          ),
           const SizedBox(height: 24),
 
-          // Stats Grid
+          // Stats Grid with Staggered Animation
           SizedBox(
             height: 350,
             child: GridView.count(
@@ -115,37 +145,49 @@ class DashboardView extends GetView<DashboardController> {
               childAspectRatio: 0.9,
               physics: const NeverScrollableScrollPhysics(),
               children: [
-                _buildStatCard(
-                  title: 'Steps',
-                  value: '7,500',
-                  target: '10,000',
-                  progress: 0.75,
-                  icon: Icons.directions_walk,
-                  color: AppTheme.neonPink,
+                FadeInUp(
+                  delay: const Duration(milliseconds: 200),
+                  child: _buildStatCard(
+                    title: 'Steps',
+                    value: '7,500',
+                    target: '10,000',
+                    progress: 0.75,
+                    icon: Icons.directions_walk,
+                    color: AppTheme.neonPink,
+                  ),
                 ),
-                _buildStatCard(
-                  title: 'Calories',
-                  value: '1,850',
-                  target: '2,200',
-                  progress: 0.84,
-                  icon: Icons.local_fire_department,
-                  color: AppTheme.neonYellow,
+                FadeInUp(
+                  delay: const Duration(milliseconds: 300),
+                  child: _buildStatCard(
+                    title: 'Calories',
+                    value: '1,850',
+                    target: '2,200',
+                    progress: 0.84,
+                    icon: Icons.local_fire_department,
+                    color: AppTheme.neonYellow,
+                  ),
                 ),
-                _buildStatCard(
-                  title: 'Sleep',
-                  value: '7h 30m',
-                  target: '8h',
-                  progress: 0.94,
-                  icon: Icons.bedtime,
-                  color: AppTheme.neonCyan,
+                FadeInUp(
+                  delay: const Duration(milliseconds: 400),
+                  child: _buildStatCard(
+                    title: 'Sleep',
+                    value: '7h 30m',
+                    target: '8h',
+                    progress: 0.94,
+                    icon: Icons.bedtime,
+                    color: AppTheme.neonCyan,
+                  ),
                 ),
-                _buildStatCard(
-                  title: 'Water',
-                  value: '1.8L',
-                  target: '2.5L',
-                  progress: 0.72,
-                  icon: Icons.water_drop,
-                  color: AppTheme.neonBlue,
+                FadeInUp(
+                  delay: const Duration(milliseconds: 500),
+                  child: _buildStatCard(
+                    title: 'Water',
+                    value: '1.8L',
+                    target: '2.5L',
+                    progress: 0.72,
+                    icon: Icons.water_drop,
+                    color: AppTheme.neonBlue,
+                  ),
                 ),
               ],
             ),
@@ -153,13 +195,16 @@ class DashboardView extends GetView<DashboardController> {
 
           const SizedBox(height: 32),
 
-          // Quick Actions
-          const Text(
-            'Quick Actions',
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
+          // Quick Actions with Animation
+          FadeInLeft(
+            delay: const Duration(milliseconds: 600),
+            child: const Text(
+              'Quick Actions',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+              ),
             ),
           ),
           const SizedBox(height: 16),
@@ -168,22 +213,28 @@ class DashboardView extends GetView<DashboardController> {
             child: Row(
               children: [
                 Expanded(
-                  child: _buildActionCard(
-                    title: 'Start Workout',
-                    subtitle: 'Quick 15 min session',
-                    icon: Icons.play_arrow,
-                    onTap: controller.navigateToWorkouts,
-                    color: AppTheme.neonPink,
+                  child: FadeInLeft(
+                    delay: const Duration(milliseconds: 700),
+                    child: _buildActionCard(
+                      title: 'Start Workout',
+                      subtitle: 'Quick 15 min session',
+                      icon: Icons.play_arrow,
+                      onTap: controller.navigateToWorkouts,
+                      color: AppTheme.neonPink,
+                    ),
                   ),
                 ),
                 const SizedBox(width: 16),
                 Expanded(
-                  child: _buildActionCard(
-                    title: 'Track Progress',
-                    subtitle: 'View your stats',
-                    icon: Icons.trending_up,
-                    onTap: controller.navigateToProgress,
-                    color: AppTheme.neonYellow,
+                  child: FadeInRight(
+                    delay: const Duration(milliseconds: 800),
+                    child: _buildActionCard(
+                      title: 'Track Progress',
+                      subtitle: 'View your stats',
+                      icon: Icons.trending_up,
+                      onTap: controller.navigateToProgress,
+                      color: AppTheme.neonYellow,
+                    ),
                   ),
                 ),
               ],
@@ -1325,69 +1376,17 @@ class DashboardView extends GetView<DashboardController> {
   }
 
   Widget _buildBottomNavigation() {
-    return Container(
-      height: 80,
-      margin: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: Colors.black.withOpacity(0.8),
-        borderRadius: BorderRadius.circular(24),
-        border: Border.all(color: Colors.white.withOpacity(0.1), width: 1),
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: controller.bottomNavItems.asMap().entries.map((entry) {
-          int index = entry.key;
-          BottomNavItem item = entry.value;
-
-          return Expanded(
-            child: Obx(
-              () => GestureDetector(
-                onTap: () => controller.changeTabIndex(index),
-                child: Container(
-                  margin: const EdgeInsets.symmetric(
-                    horizontal: 4,
-                    vertical: 8,
-                  ),
-                  padding: const EdgeInsets.symmetric(vertical: 8),
-                  decoration: BoxDecoration(
-                    gradient: controller.currentIndex.value == index
-                        ? AppTheme.primaryGradient
-                        : null,
-                    borderRadius: BorderRadius.circular(16),
-                  ),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Icon(
-                        item.icon,
-                        color: controller.currentIndex.value == index
-                            ? Colors.white
-                            : Colors.white.withOpacity(0.6),
-                        size: 20,
-                      ),
-                      const SizedBox(height: 2),
-                      Text(
-                        item.label,
-                        style: TextStyle(
-                          color: controller.currentIndex.value == index
-                              ? Colors.white
-                              : Colors.white.withOpacity(0.6),
-                          fontSize: 10,
-                          fontWeight: FontWeight.w500,
-                        ),
-                        textAlign: TextAlign.center,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-          );
-        }).toList(),
-      ),
-    );
+    return Obx(() => nav.AnimatedBottomNavBar(
+      items: controller.bottomNavItems.map((item) => nav.BottomNavItem(
+        icon: item.icon,
+        label: item.label,
+      )).toList(),
+      currentIndex: controller.currentIndex.value,
+      onTap: controller.changeTabIndex,
+      backgroundColor: Colors.black.withOpacity(0.8),
+      activeColor: Colors.white,
+      inactiveColor: Colors.white.withOpacity(0.6),
+    ));
   }
 
   // Helper methods for workout content

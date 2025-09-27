@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:animate_do/animate_do.dart';
 import '../../../core/theme/app_theme.dart';
 import '../../../core/widgets/custom_widgets.dart';
+
 import '../controllers/settings_controller.dart';
 
 class SettingsView extends GetView<SettingsController> {
@@ -26,17 +28,35 @@ class SettingsView extends GetView<SettingsController> {
                   padding: const EdgeInsets.all(20),
                   child: Column(
                     children: [
-                      _buildNotificationSettings(),
+                      FadeInUp(
+                        delay: const Duration(milliseconds: 100),
+                        child: _buildNotificationSettings(),
+                      ),
                       const SizedBox(height: 20),
-                      _buildAppPreferences(),
+                      FadeInUp(
+                        delay: const Duration(milliseconds: 200),
+                        child: _buildAppPreferences(),
+                      ),
                       const SizedBox(height: 20),
-                      _buildUnitsDisplay(),
+                      FadeInUp(
+                        delay: const Duration(milliseconds: 300),
+                        child: _buildUnitsDisplay(),
+                      ),
                       const SizedBox(height: 20),
-                      _buildPrivacySettings(),
+                      FadeInUp(
+                        delay: const Duration(milliseconds: 400),
+                        child: _buildPrivacySettings(),
+                      ),
                       const SizedBox(height: 20),
-                      _buildDataManagement(),
+                      FadeInUp(
+                        delay: const Duration(milliseconds: 500),
+                        child: _buildDataManagement(),
+                      ),
                       const SizedBox(height: 20),
-                      _buildAboutSection(),
+                      FadeInUp(
+                        delay: const Duration(milliseconds: 600),
+                        child: _buildAboutSection(),
+                      ),
                       const SizedBox(height: 100),
                     ],
                   ),
@@ -54,33 +74,38 @@ class SettingsView extends GetView<SettingsController> {
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
       child: Row(
         children: [
-          GestureDetector(
-            onTap: () => Get.back(),
-            child: Container(
-              padding: const EdgeInsets.all(12),
-              decoration: BoxDecoration(
-                color: Colors.white.withOpacity(0.1),
-                borderRadius: BorderRadius.circular(12),
-                border: Border.all(
-                  color: Colors.white.withOpacity(0.2),
-                  width: 1,
+          FadeInLeft(
+            child: GestureDetector(
+              onTap: () => Get.back(),
+              child: Container(
+                padding: const EdgeInsets.all(12),
+                decoration: BoxDecoration(
+                  color: Colors.white.withOpacity(0.1),
+                  borderRadius: BorderRadius.circular(12),
+                  border: Border.all(
+                    color: Colors.white.withOpacity(0.2),
+                    width: 1,
+                  ),
                 ),
-              ),
-              child: const Icon(
-                Icons.arrow_back_ios,
-                color: Colors.white,
-                size: 20,
+                child: const Icon(
+                  Icons.arrow_back_ios,
+                  color: Colors.white,
+                  size: 20,
+                ),
               ),
             ),
           ),
           const SizedBox(width: 16),
-          const Text(
-            'Settings',
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 28,
-              fontWeight: FontWeight.bold,
-              letterSpacing: -0.5,
+          FadeInDown(
+            delay: const Duration(milliseconds: 200),
+            child: const Text(
+              'Settings',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 28,
+                fontWeight: FontWeight.bold,
+                letterSpacing: -0.5,
+              ),
             ),
           ),
         ],

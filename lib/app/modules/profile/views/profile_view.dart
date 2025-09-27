@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:animate_do/animate_do.dart';
 import '../../../core/theme/app_theme.dart';
 import '../../../core/widgets/custom_widgets.dart';
+import '../../../core/widgets/advanced_animations.dart';
+
 import '../controllers/profile_controller.dart';
 
 class ProfileView extends GetView<ProfileController> {
@@ -26,17 +29,35 @@ class ProfileView extends GetView<ProfileController> {
                   padding: const EdgeInsets.all(20),
                   child: Column(
                     children: [
-                      _buildProfileHeader(),
+                      AnimatedCard(
+                        delay: const Duration(milliseconds: 100),
+                        child: _buildProfileHeader(),
+                      ),
                       const SizedBox(height: 20),
-                      _buildStatsGrid(),
+                      AnimatedCard(
+                        delay: const Duration(milliseconds: 200),
+                        child: _buildStatsGrid(),
+                      ),
                       const SizedBox(height: 20),
-                      _buildAchievements(),
+                      AnimatedCard(
+                        delay: const Duration(milliseconds: 300),
+                        child: _buildAchievements(),
+                      ),
                       const SizedBox(height: 20),
-                      _buildPersonalInfo(),
+                      AnimatedCard(
+                        delay: const Duration(milliseconds: 400),
+                        child: _buildPersonalInfo(),
+                      ),
                       const SizedBox(height: 20),
-                      _buildGoals(),
+                      AnimatedCard(
+                        delay: const Duration(milliseconds: 500),
+                        child: _buildGoals(),
+                      ),
                       const SizedBox(height: 20),
-                      _buildPreferences(),
+                      AnimatedCard(
+                        delay: const Duration(milliseconds: 600),
+                        child: _buildPreferences(),
+                      ),
                       const SizedBox(height: 100),
                     ],
                   ),
@@ -54,53 +75,64 @@ class ProfileView extends GetView<ProfileController> {
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
       child: Row(
         children: [
-          GestureDetector(
-            onTap: () => Get.back(),
-            child: Container(
-              padding: const EdgeInsets.all(12),
-              decoration: BoxDecoration(
-                color: Colors.white.withOpacity(0.1),
-                borderRadius: BorderRadius.circular(12),
-                border: Border.all(
-                  color: Colors.white.withOpacity(0.2),
-                  width: 1,
+          FadeInLeft(
+            child: GestureDetector(
+              onTap: () => Get.back(),
+              child: Container(
+                padding: const EdgeInsets.all(12),
+                decoration: BoxDecoration(
+                  color: Colors.white.withOpacity(0.1),
+                  borderRadius: BorderRadius.circular(12),
+                  border: Border.all(
+                    color: Colors.white.withOpacity(0.2),
+                    width: 1,
+                  ),
                 ),
-              ),
-              child: const Icon(
-                Icons.arrow_back_ios,
-                color: Colors.white,
-                size: 20,
+                child: const Icon(
+                  Icons.arrow_back_ios,
+                  color: Colors.white,
+                  size: 20,
+                ),
               ),
             ),
           ),
           const SizedBox(width: 16),
-          const Text(
-            'Profile',
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 28,
-              fontWeight: FontWeight.bold,
-              letterSpacing: -0.5,
+          FadeInDown(
+            delay: const Duration(milliseconds: 200),
+            child: const Text(
+              'Profile',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 28,
+                fontWeight: FontWeight.bold,
+                letterSpacing: -0.5,
+              ),
             ),
           ),
           const Spacer(),
-          GestureDetector(
-            onTap: () => controller.editProfile(),
-            child: Container(
-              padding: const EdgeInsets.all(12),
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [
-                    AppTheme.neonPink.withOpacity(0.6),
-                    AppTheme.neonBlue.withOpacity(0.6),
-                  ],
+          FadeInRight(
+            delay: const Duration(milliseconds: 400),
+            child: PulseAnimation(
+              duration: const Duration(seconds: 2),
+              child: GestureDetector(
+                onTap: () => controller.editProfile(),
+                child: Container(
+                  padding: const EdgeInsets.all(12),
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      colors: [
+                        AppTheme.neonPink.withOpacity(0.6),
+                        AppTheme.neonBlue.withOpacity(0.6),
+                      ],
+                    ),
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: const Icon(
+                    Icons.edit,
+                    color: Colors.white,
+                    size: 20,
+                  ),
                 ),
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: const Icon(
-                Icons.edit,
-                color: Colors.white,
-                size: 20,
               ),
             ),
           ),

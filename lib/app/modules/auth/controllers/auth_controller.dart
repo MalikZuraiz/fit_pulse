@@ -40,12 +40,12 @@ class AuthController extends GetxController {
       _storageService.userToken = 'dummy_token_${DateTime.now().millisecondsSinceEpoch}';
       
       Get.offAllNamed(AppRoutes.dashboard);
-      Get.snackbar(
-        'Success',
-        'Welcome back!',
-        backgroundColor: Colors.green,
-        colorText: Colors.white,
-      );
+      // Get.snackbar(
+      //   'Success',
+      //   'Welcome back!',
+      //   backgroundColor: Colors.green,
+      //   colorText: Colors.white,
+      // );
     } catch (e) {
       Get.snackbar(
         'Error',
