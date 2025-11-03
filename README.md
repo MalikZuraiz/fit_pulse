@@ -40,9 +40,9 @@ It allows users to:
 
 | | | |
 |---|---|---|
-<img src="./assets/UI%20Images/1.png" width="260"/> | <img src="./assets/UI%20Images/2.png" width="260"/> | <img src="./assets/UI%20Images/3.png" width="260"/> |
-<img src="./assets/UI%20Images/4.png" width="260"/> | <img src="./assets/UI%20Images/5.png" width="260"/> | <img src="./assets/UI%20Images/6.png" width="260"/> |
-<img src="./assets/UI%20Images/7.png" width="260"/> | <img src="./assets/UI%20Images/8.png" width="260"/> | <img src="./assets/UI%20Images/9.png" width="260"/> |
+<img src="./assets/UI%20Images/1.jpg" width="260"/> | <img src="./assets/UI%20Images/2.jpg" width="260"/> | <img src="./assets/UI%20Images/3.jpg" width="260"/> |
+<img src="./assets/UI%20Images/4.jpg" width="260"/> | <img src="./assets/UI%20Images/5.jpg" width="260"/> | <img src="./assets/UI%20Images/6.jpg" width="260"/> |
+<img src="./assets/UI%20Images/7.jpg" width="260"/> | <img src="./assets/UI%20Images/8.jpg" width="260"/> | <img src="./assets/UI%20Images/9.jpg" width="260"/> |
 
 ---
 
