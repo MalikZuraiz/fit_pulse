@@ -34,7 +34,6 @@ class DashboardView extends GetView<DashboardController> {
             SafeArea(
               child: Column(
                 children: [
-                    // Header
                     Padding(
                       padding: const EdgeInsets.all(24.0),
                       child: Row(
@@ -45,7 +44,7 @@ class DashboardView extends GetView<DashboardController> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  'Welcome back,',
+                                  'Welcome back Zuraiz,',
                                   style: TextStyle(
                                     color: Colors.white.withOpacity(0.8),
                                     fontSize: 16,
